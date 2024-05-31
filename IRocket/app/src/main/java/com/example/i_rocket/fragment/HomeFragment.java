@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.i_rocket.ApiService;
@@ -26,7 +27,6 @@ import com.example.i_rocket.ExpeditionAdapter;
 import com.example.i_rocket.ExpeditionResponse;
 import com.example.i_rocket.R;
 import com.example.i_rocket.RetrofitClient;
-
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -63,7 +63,7 @@ public class HomeFragment extends Fragment {
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         page = sharedPreferences.getInt("page", 0);
-        Call<ExpeditionResponse> call = apiService.getExpedition(10*1);
+        Call<ExpeditionResponse> call = apiService.getExpedition(10*page);
         Log.d("TAG0", "onCreate: " + call.request().url());
         ExecutorService executor = Executors.newSingleThreadExecutor();
 
@@ -89,6 +89,8 @@ public class HomeFragment extends Fragment {
         rl_offline_nav = view.findViewById(R.id.rl_offline);
 
         rv_expedition = view.findViewById(R.id.rv_expedition_home);
+        rv_expedition.setHasFixedSize(true);
+        rv_expedition.setLayoutManager(new LinearLayoutManager(getContext()));
 
         loading = view.findViewById(R.id.ma_loading_home);
         rl_loading = view.findViewById(R.id.rl_loding_home);
@@ -172,7 +174,7 @@ public class HomeFragment extends Fragment {
                     Log.d("TAG1", "onResponse: " + page);
                     if (response.isSuccessful() && expeditionResponse != null) {
                         for (Expedition ex : expeditionResponse.getResults()) {
-                            Log.d("TAG", "onResponse: sukses " + ex.getName());
+                            
                             ExpeditionAdapter adapter = new ExpeditionAdapter(expeditionResponse.getResults());
                             loading.setVisibility(View.GONE);
                             rl_loading.setVisibility(View.GONE);
