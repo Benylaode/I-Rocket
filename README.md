@@ -1,6 +1,6 @@
 # I-Rocket
 <p align="center">
-  <img src="UI_APK/logo.jpeg" alt="I-Rocket Logo">
+  <img src="UI_APK/logo.jpg" alt="I-Rocket Logo">
 </p>
 Selamat datang di aplikasi I-Rocket, sebuah platform inovatif yang dirancang untuk menghubungkan Anda dengan informasi terkini dan mendalam mengenai ekspedisi-ekspedisi luar angkasa. Dalam era penjelajahan antariksa yang semakin maju, informasi mengenai misi-misi yang dilakukan di luar angkasa menjadi sangat berharga. Aplikasi ini hadir untuk memenuhi kebutuhan tersebut, memberikan akses mudah dan cepat ke data ekspedisi, penemuan, dan perkembangan teknologi antariksa.
 
@@ -17,7 +17,7 @@ Melalui antarmuka yang user-friendly dan informatif, Anda dapat menjelajahi berb
 ## Activity
 <div style="text-align: start;">
     <img src="UI_APK/main.jpeg" alt="pic5" style="width: 200px; display: inline-block; margin-right: 10px;">
-    <img src="UI_APK/image4.jpeg" alt="pic6" style="width: 200px; display: inline-block; margin-right: 10px;">
+    <img src="UI_APK/Expedition_info.jpeg" alt="pic6" style="width: 200px; display: inline-block; margin-right: 10px;">
 </div> 
 
 Dapat dilihat bahwa aplikaih ini memiliki 2 activity yakni mainActivity yang akan menjadi tempat pertamakali user masuk ke aplikasih dan lalu di arahkan ke fragment home
@@ -41,11 +41,11 @@ Adalah sebuah fargment yang berguna untuk menampilkan semua Expedition yang tela
 Aplikasi ini dapat menjalankan operasi di latar belakang dengan memanfaatkan Executor dan Handler sehingga bisa meload data melalui backgroud sebelum  
 ditampilkan di UInya 
 
-### Networking
+## Networking
 Terdapat implementasi fungsi untuk mengambil data yang berupa web_pages dari daftar universitas pada API eksternal menggunakan Retrofit, lalu menampilkan data tersebut ke dalam aplikasi
 url api : https://ll.thespacedevs.com/2.2.0/expedition/
 
-### Local Data Persistent
+## Local Data Persistent
   - Menggunakan SharedPreference untuk menyimpan aktivitas yang dilakukan di aplikasih sehingga walapun aplikasih tertutup activitas sebelumnya tetap tersimpan.
   - Kami menyediakan data offline yang dapat diakses walaupun tanpa internet dari expedition yang disimpan pada sql lita dan di akses dengan Datasourch.java
  
