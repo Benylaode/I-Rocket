@@ -1,6 +1,11 @@
 package com.example.i_rocket;
 
-public class Spacewalk {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
+public class Spacewalk implements Parcelable  {
     private int id;
     private String url;
     private String name;
@@ -8,6 +13,28 @@ public class Spacewalk {
     private String end;
     private String duration;
     private String location;
+
+    protected Spacewalk(Parcel in) {
+        id = in.readInt();
+        url = in.readString();
+        name = in.readString();
+        start = in.readString();
+        end = in.readString();
+        duration = in.readString();
+        location = in.readString();
+    }
+
+    public static final Creator<Spacewalk> CREATOR = new Creator<Spacewalk>() {
+        @Override
+        public Spacewalk createFromParcel(Parcel in) {
+            return new Spacewalk(in);
+        }
+
+        @Override
+        public Spacewalk[] newArray(int size) {
+            return new Spacewalk[size];
+        }
+    };
 
     // Getters and Setters
     public int getId() {
@@ -64,5 +91,21 @@ public class Spacewalk {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(url);
+        dest.writeString(name);
+        dest.writeString(start);
+        dest.writeString(end);
+        dest.writeString(duration);
+        dest.writeString(location);
     }
 }

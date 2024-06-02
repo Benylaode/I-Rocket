@@ -1,7 +1,12 @@
 package com.example.i_rocket;
 
 
-public class Spacestation {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
+public class Spacestation implements Parcelable {
     private int id;
     private String url;
     private String name;
@@ -9,7 +14,44 @@ public class Spacestation {
     private String orbit;
     private String image_url;
 
-    // Nested class for Status
+    protected Spacestation(Parcel in) {
+        id = in.readInt();
+        url = in.readString();
+        name = in.readString();
+        orbit = in.readString();
+        image_url = in.readString();
+    }
+    protected Spacestation(String name, String image_url) {
+        this.name = name;
+        this.image_url = image_url;
+    }
+
+    public static final Creator<Spacestation> CREATOR = new Creator<Spacestation>() {
+        @Override
+        public Spacestation createFromParcel(Parcel in) {
+            return new Spacestation(in);
+        }
+
+        @Override
+        public Spacestation[] newArray(int size) {
+            return new Spacestation[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(url);
+        dest.writeString(name);
+        dest.writeString(orbit);
+        dest.writeString(image_url);
+    }
+
     public static class Status {
         private int id;
         private String name;

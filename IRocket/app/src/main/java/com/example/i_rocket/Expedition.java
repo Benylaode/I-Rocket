@@ -15,7 +15,7 @@ public class Expedition implements Parcelable {
     private String start;
     private String end;
     private Spacestation spacestation;
-    private List<Object> mission_patches; // Assuming mission_patches is an empty list in the JSON
+    private List<MissionPatch> mission_patches;
     private List<Spacewalk> spacewalks;
 
     protected Expedition(Parcel in) {
@@ -24,6 +24,14 @@ public class Expedition implements Parcelable {
         name = in.readString();
         start = in.readString();
         end = in.readString();
+    }
+    protected Expedition(int id, String url, String name,String start,String end,String spacestation, String image_url) {
+        this.id = id;
+        this.url = url;
+        this.name = name;
+        this.start = start;
+        this.end = end;
+        this.spacestation = new Spacestation(spacestation, image_url);
     }
 
     public static final Creator<Expedition> CREATOR = new Creator<Expedition>() {
@@ -38,7 +46,6 @@ public class Expedition implements Parcelable {
         }
     };
 
-    // Getters and Setters
     public int getId() {
         return id;
     }
@@ -87,11 +94,11 @@ public class Expedition implements Parcelable {
         this.spacestation = spacestation;
     }
 
-    public List<Object> getMissionPatches() {
+    public List<MissionPatch> getMissionPatches() {
         return mission_patches;
     }
 
-    public void setMissionPatches(List<Object> mission_patches) {
+    public void setMissionPatches(List<MissionPatch> mission_patches) {
         this.mission_patches = mission_patches;
     }
 

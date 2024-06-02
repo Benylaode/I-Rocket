@@ -1,10 +1,202 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ExpeditionActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <!-- Masthead -->
+        <TextView
+            android:id="@+id/masthead"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Expedition 70"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="@color/white"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:padding="8dp"
+            android:background="@color/gray_blue"/>
+
+        <!-- Headline -->
+        <TextView
+            android:id="@+id/headline"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Ekspedisi 70 ke Stasiun Luar Angkasa Internasional: Misi dan Aktivitas Terbaru"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toBottomOf="@id/masthead"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:padding="8dp"/>
+
+        <!-- ImageView -->
+        <ImageView
+            android:id="@+id/photo_iss"
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            android:src="@drawable/home"
+            android:contentDescription="Gambar Stasiun Luar Angkasa Internasional"
+            app:layout_constraintTop_toBottomOf="@id/headline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:scaleType="centerCrop"
+            android:layout_margin="8dp"/>
+
+        <!-- Caption for Image -->
+        <TextView
+            android:id="@+id/caption_iss"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Gambar Stasiun Luar"
+            android:textSize="12sp"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:padding="4dp"
+            app:layout_constraintTop_toBottomOf="@id/photo_iss"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <!-- Byline -->
+        <TextView
+            android:id="@+id/byline"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Oleh Tim Redaksi"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toBottomOf="@id/caption_iss"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:padding="4dp"/>
+
+        <!-- Lead -->
+        <TextView
+            android:id="@+id/lead"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Ekspedisi 70 ke Stasiun Luar Angkasa Internasional (ISS) telah dimulai pada 26 September 2023 dan akan berlangsung hingga 6 April 2024. Dalam misi ini, berbagai kegiatan penting termasuk spacewalks telah dilakukan untuk mendukung operasional ISS."
+            android:textSize="16sp"
+            android:textStyle="italic"
+            android:padding="8dp"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toBottomOf="@id/byline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <!-- Body Text -->
+        <TextView
+            android:id="@+id/body_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Misi Ekspedisi 70\nEkspedisi 70, yang dipimpin oleh Badan Antariksa Eropa (ESA), merupakan salah satu misi penting yang berlangsung di ISS, yang berada di orbit rendah Bumi. Selama misi ini, berbagai kegiatan ilmiah dan teknis telah dilakukan untuk memastikan kelangsungan operasional ISS.\n\nDetail Misi dan Durasi\nMisi ini dimulai pada 26 September 2023 pukul 13:40 UTC dan dijadwalkan berakhir pada 6 April 2024 pukul 03:53 UTC. Selama misi ini, para astronot telah melakukan berbagai eksperimen ilmiah dan perbaikan teknis di ISS.\n\nSpacewalks dalam Ekspedisi 70\nDua spacewalks utama telah dilakukan dalam misi ini:\n1. Ekspedisi 70 EVA 1\nTanggal: 25 Oktober 2023 - 26 Oktober 2023\nDurasi: 7 jam 41 menit\nLokasi: ISS\n\n2. Ekspedisi 70 EVA 2\nTanggal: 1 November 2023\nDurasi: 6 jam 42 menit\nLokasi: ISS"
+            android:textSize="14sp"
+            android:padding="8dp"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toBottomOf="@id/lead"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <!-- Patch Image -->
+        <ImageView
+            android:id="@+id/patch_misi"
+            android:layout_width="0dp"
+            android:layout_height="320dp"
+            android:src="@drawable/home"
+            android:contentDescription="Patch misi Ekspedisi 70 oleh Badan Antariksa Eropa (ESA)"
+            app:layout_constraintTop_toBottomOf="@id/body_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:scaleType="centerCrop"
+            android:layout_margin="8dp"/>
+
+        <!-- Caption for Patch Image -->
+        <TextView
+            android:id="@+id/caption_patch"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text=" No Data "
+            android:textSize="12sp"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:padding="4dp"
+            app:layout_constraintTop_toBottomOf="@id/patch_misi"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <!-- Pull Quotes -->
+        <TextView
+            android:id="@+id/pull_quote"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Ekspedisi 70 ke ISS telah membawa banyak inovasi dan perbaikan teknis penting bagi operasional stasiun."
+            android:textSize="16sp"
+            android:textStyle="italic"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:padding="8dp"
+            android:background="@color/white_blue"
+            app:layout_constraintTop_toBottomOf="@id/caption_patch"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_margin="8dp"/>
+        <Button
+            android:id="@+id/google"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Mencari Tahu"
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            android:background="@color/gray_blue"
+            app:layout_constraintTop_toBottomOf="@id/pull_quote"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_margin="8dp"/>
+
+        <!-- Save Button -->
+        <Button
+            android:id="@+id/save_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Simpan Koran"
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            android:background="@color/gray_blue"
+            app:layout_constraintTop_toBottomOf="@id/google"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_margin="8dp"/>
+
+        <!-- Advertisement (Optional) -->
+        <TextView
+            android:id="@+id/advertisement"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Advertise with us! Contact us at ads@newspaper.com"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:padding="8dp"
+            android:background="@color/white_blue"
+            app:layout_constraintTop_toBottomOf="@id/save_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_margin="8dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

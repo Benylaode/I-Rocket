@@ -2,10 +2,9 @@ package com.example.i_rocket.fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,24 +21,21 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.i_rocket.ApiService;
-import com.example.i_rocket.Expedition;
 import com.example.i_rocket.ExpeditionAdapter;
 import com.example.i_rocket.ExpeditionResponse;
 import com.example.i_rocket.R;
 import com.example.i_rocket.RetrofitClient;
+import com.example.i_rocket.Tampil;
 
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class HomeFragment extends Fragment {
-    public static String SPKU;
-    private static Button next ;
-    private Button prev;
+    public static String SPKU = "my";
     private int page;
     private View loading;
     private RelativeLayout rl_loading;
@@ -47,7 +43,10 @@ public class HomeFragment extends Fragment {
     private RelativeLayout rl_search_nav;
     private RelativeLayout rl_offline_nav;
     private RecyclerView rv_expedition;
-    private TextView pageNum;
+    private ImageView noCon;
+    private FragmentManager fragmentManager ;
+    private String currentFragmentstr;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -64,24 +63,36 @@ public class HomeFragment extends Fragment {
 
         page = sharedPreferences.getInt("page", 0);
         Call<ExpeditionResponse> call = apiService.getExpedition(10*page);
-        Log.d("TAG0", "onCreate: " + call.request().url());
         ExecutorService executor = Executors.newSingleThreadExecutor();
 
         ImageView iv_home = view.findViewById(R.id.IV_Home);
         ImageView iv_offline = view.findViewById(R.id.IV_offline);
         ImageView iv_search = view.findViewById(R.id.iv_search);
-        next = view.findViewById(R.id.next_home);
-        prev = view.findViewById(R.id.prev_home);
-        pageNum = view.findViewById(R.id.page_num);
+        Button next = view.findViewById(R.id.next_home);
+        Button prev = view.findViewById(R.id.prev_home);
+        TextView pageNum = view.findViewById(R.id.page_num);
+
+        String[] tags = {"HOME", "SEARCH", "OFFLINE"};
+        fragmentManager = getParentFragmentManager();
+        List<Fragment> farment = fragmentManager.getFragments();
+        for (String tag : tags){
+            for(Fragment fragment : farment){
+                if (fragmentManager.findFragmentByTag(tag) == fragment ){
+                    currentFragmentstr = tag;
+                    break;
+                };
+            }
+
+        }
 
         @SuppressLint("DefaultLocale") String format = String.format("%02d", page);
         pageNum.setText(format);
 
         if(page == 0){
             prev.setVisibility(View.GONE);
-        } else if (page == 150) {
+        }
+        if (page == 15) {
             next.setVisibility(View.GONE);
-
         }
 
         rl_home_nav = view.findViewById(R.id.rl_home);
@@ -94,18 +105,23 @@ public class HomeFragment extends Fragment {
 
         loading = view.findViewById(R.id.ma_loading_home);
         rl_loading = view.findViewById(R.id.rl_loding_home);
+        noCon = view.findViewById(R.id.ma_noint_home);
 
         rl_home_nav.setBackgroundResource(R.drawable.press_view);
-        showloding();
-        tampilan(executor, call);
-
+        if(Tampil.results == null){
+            Tampil.showloding(loading, rl_loading, rv_expedition, noCon);
+            Tampil.tampilan(executor, call, loading, rl_loading,rv_expedition, noCon, currentFragmentstr);
+        }else {
+            ExpeditionAdapter adapter = new ExpeditionAdapter(Tampil.results, currentFragmentstr);
+            rv_expedition.setAdapter(adapter);
+        }
         iv_offline.setOnClickListener(v -> {
             rl_offline_nav.setBackgroundResource(R.drawable.press_view);
             OfflineFragment offlineFragment = new OfflineFragment();
-            FragmentManager fragmentManager = getParentFragmentManager();
+            fragmentManager = getParentFragmentManager();
             fragmentManager
                     .beginTransaction()
-                    .replace(R.id.frame_container, offlineFragment)
+                    .replace(R.id.frame_container, offlineFragment, "OFFLINE")
                     .addToBackStack(null)
                     .commit();
         });
@@ -114,10 +130,10 @@ public class HomeFragment extends Fragment {
         iv_search.setOnClickListener(v -> {
             rl_search_nav.setBackgroundResource(R.drawable.press_view);
             SearchFragment searchFragment = new SearchFragment();
-            FragmentManager fragmentManager = getParentFragmentManager();
+            fragmentManager = getParentFragmentManager();
             fragmentManager
                     .beginTransaction()
-                    .replace(R.id.frame_container, searchFragment)
+                    .replace(R.id.frame_container, searchFragment,  "SEARCH")
                     .addToBackStack(null)
                     .commit();
         });
@@ -125,28 +141,30 @@ public class HomeFragment extends Fragment {
         iv_home.setOnClickListener(v -> {
             rl_home_nav.setBackgroundResource(R.drawable.press_view);
             HomeFragment homeFragment = new HomeFragment();
-            FragmentManager fragmentManager = getParentFragmentManager();
+            fragmentManager = getParentFragmentManager();
             fragmentManager
                     .beginTransaction()
-                    .replace(R.id.frame_container, homeFragment)
+                    .replace(R.id.frame_container, homeFragment, "HOME")
                     .addToBackStack(null)
                     .commit();
         });
         next.setOnClickListener(v -> {
+            Tampil.results = null;
             int page = sharedPreferences.getInt("page",0);
             int page_new = page  + 1;
             editor.putInt("page", page_new);
             editor.apply();
             rl_home_nav.setBackgroundResource(R.drawable.press_view);
             HomeFragment homeFragment = new HomeFragment();
-            FragmentManager fragmentManager = getParentFragmentManager();
+            fragmentManager = getParentFragmentManager();
             fragmentManager
                     .beginTransaction()
-                    .replace(R.id.frame_container, homeFragment)
+                    .replace(R.id.frame_container, homeFragment, "HOME")
                     .addToBackStack(null)
                     .commit();
         });
         prev.setOnClickListener(v -> {
+            Tampil.results = null;
             int page = sharedPreferences.getInt("page",0);
             int page_new = page  - 1;
             editor.putInt("page", page_new);
@@ -156,53 +174,11 @@ public class HomeFragment extends Fragment {
             FragmentManager fragmentManager = getParentFragmentManager();
             fragmentManager
                     .beginTransaction()
-                    .replace(R.id.frame_container, homeFragment)
+                    .replace(R.id.frame_container, homeFragment, "HOME")
                     .addToBackStack(null)
                     .commit();
         });
 
-    }
-
-
-    private void tampilan(ExecutorService executor, Call<ExpeditionResponse> call) {
-        executor.execute(() -> {
-            call.enqueue(new Callback<ExpeditionResponse>() {
-                @SuppressLint("SetTextI18n")
-                @Override
-                public void onResponse(@NonNull Call<ExpeditionResponse> call, @NonNull Response<ExpeditionResponse> response) {
-                    ExpeditionResponse expeditionResponse = response.body();
-                    Log.d("TAG1", "onResponse: " + page);
-                    if (response.isSuccessful() && expeditionResponse != null) {
-                        for (Expedition ex : expeditionResponse.getResults()) {
-                            
-                            ExpeditionAdapter adapter = new ExpeditionAdapter(expeditionResponse.getResults());
-                            loading.setVisibility(View.GONE);
-                            rl_loading.setVisibility(View.GONE);
-                            rv_expedition.setVisibility(View.VISIBLE);
-                            rv_expedition.setAdapter(adapter);
-                        }
-                    } else {
-                        Log.e("TAG", "onResponse: gagal " );
-                    }
-                }
-
-                @Override
-                public void onFailure(@NonNull Call<ExpeditionResponse> call, @NonNull Throwable t) {
-                    Log.e("TAG", "onFailure: ", t);
-                }
-            });
-            try {
-                Thread.sleep(700);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                Log.e("TAG", "Executor interrupted", e);
-            }
-        });
-    }
-    private void showloding(){
-        loading.setVisibility(View.VISIBLE);
-        rl_loading.setVisibility(View.VISIBLE);
-        rv_expedition.setVisibility(View.GONE);
     }
 
 

@@ -8,6 +8,6 @@ public interface ApiService {
     @GET("2.2.0/expedition/?limit=10")
     Call<ExpeditionResponse> getExpedition(@Query("offset") int offset);
     @GET("2.2.0/expedition/")
-    Call<ExpeditionResponse> getid(@Query("id") int id);
+    Call<ExpeditionResponse> getSearchEx(@Query("search") String search);
 
 }

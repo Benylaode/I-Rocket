@@ -3,14 +3,70 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/black"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragment.HomeFragment">
+    <RelativeLayout
+        android:id="@+id/rl_loding_search"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black"
+        android:visibility="gone"
+        tools:ignore="MissingConstraints">
+        <ImageView
+            android:id="@+id/ma_noint_search"
+            android:layout_width="wrap_content"
+            android:visibility="gone"
+            android:layout_centerInParent="true"
+            android:layout_height="wrap_content"
+            android:src="@drawable/nointernet"/>
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/ma_loading_search"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_height="wrap_content"
+            android:src="@drawable/mars"/>
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:background="@color/gray_blue"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:layout_height="45dp">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/baseline_search_24"/>
 
-    <TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="search fragment!"
-     />
+        <EditText
+            android:id="@+id/Search_fg"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:maxLines="1"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="40dp"
+            android:background="@color/gray_blue"
+            android:hint="Search"
+            android:textColor="@color/white_blue"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:textColorHint="@color/white_blue" />
+        
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="100dp"
+        android:layout_marginTop="80dp">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_expedition_search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/mission_card" />
+    </LinearLayout>
     <include
 
         layout="@layout/navigation" />

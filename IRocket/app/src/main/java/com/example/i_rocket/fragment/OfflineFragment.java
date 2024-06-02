@@ -12,17 +12,27 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.i_rocket.ApiService;
+import com.example.i_rocket.DataSource;
+import com.example.i_rocket.Expedition;
+import com.example.i_rocket.ExpeditionAdapter;
 import com.example.i_rocket.R;
 import com.example.i_rocket.RetrofitClient;
 
+import java.util.List;
+
+
 import retrofit2.Retrofit;
 
-public class OfflineFragment extends Fragment {
+public class OfflineFragment extends Fragment  {
     private RelativeLayout rl_home_nav;
     private RelativeLayout rl_search_nav;
     private RelativeLayout rl_offline_nav;
+    private RecyclerView rv_expedition;
+    private String currentFragmentstr;
+    private FragmentManager fragmentManager ;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -35,11 +45,23 @@ public class OfflineFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         Retrofit retrofit = RetrofitClient.getClient();
-        ApiService apiService = retrofit.create(ApiService.class);
 
         ImageView iv_home = view.findViewById(R.id.IV_Home);
         ImageView iv_offline = view.findViewById(R.id.IV_offline);
         ImageView iv_search = view.findViewById(R.id.iv_search);
+        ImageView not_found = view.findViewById(R.id.im_notfound);
+        String[] tags = {"HOME", "SEARCH", "OFFLINE"};
+        fragmentManager = getParentFragmentManager();
+        List<Fragment> farment = fragmentManager.getFragments();
+        for (String tag : tags){
+            for(Fragment fragment : farment){
+                if (fragmentManager.findFragmentByTag(tag) == fragment ){
+                    currentFragmentstr = tag;
+                    break;
+                };
+            }
+
+        }
 
         rl_home_nav = view.findViewById(R.id.rl_home);
         rl_search_nav = view.findViewById(R.id.rl_search);
@@ -47,13 +69,24 @@ public class OfflineFragment extends Fragment {
 
         rl_offline_nav.setBackgroundResource(R.drawable.press_view);
 
+        rv_expedition = view.findViewById(R.id.rv_expedition_off);
+        rv_expedition.setHasFixedSize(true);
+        rv_expedition.setLayoutManager(new LinearLayoutManager(getContext()));
+        DataSource.getData(getContext());
+        if(DataSource.expeditions_off.size() >= 1){
+            ExpeditionAdapter adapter = new ExpeditionAdapter(DataSource.expeditions_off, currentFragmentstr );
+            rv_expedition.setAdapter(adapter);
+            not_found.setVisibility(View.GONE);
+            rv_expedition.setVisibility(View.VISIBLE);
+        }
+
         iv_offline.setOnClickListener(v -> {
             rl_offline_nav.setBackgroundResource(R.drawable.press_view);
             OfflineFragment offlineFragment = new OfflineFragment();
-            FragmentManager fragmentManager = getParentFragmentManager();
+            fragmentManager = getParentFragmentManager();
             fragmentManager
                     .beginTransaction()
-                    .replace(R.id.frame_container, offlineFragment)
+                    .replace(R.id.frame_container, offlineFragment, "OFFLINE")
                     .addToBackStack(null)
                     .commit();
         });
@@ -62,10 +95,10 @@ public class OfflineFragment extends Fragment {
         iv_search.setOnClickListener(v -> {
             rl_search_nav.setBackgroundResource(R.drawable.press_view);
             SearchFragment searchFragment = new SearchFragment();
-            FragmentManager fragmentManager = getParentFragmentManager();
+            fragmentManager = getParentFragmentManager();
             fragmentManager
                     .beginTransaction()
-                    .replace(R.id.frame_container, searchFragment)
+                    .replace(R.id.frame_container, searchFragment,  "SEARCH")
                     .addToBackStack(null)
                     .commit();
         });
@@ -73,12 +106,16 @@ public class OfflineFragment extends Fragment {
         iv_home.setOnClickListener(v -> {
             rl_home_nav.setBackgroundResource(R.drawable.press_view);
             HomeFragment homeFragment = new HomeFragment();
-            FragmentManager fragmentManager = getParentFragmentManager();
+            fragmentManager = getParentFragmentManager();
             fragmentManager
                     .beginTransaction()
-                    .replace(R.id.frame_container, homeFragment)
+                    .replace(R.id.frame_container, homeFragment, "HOME")
                     .addToBackStack(null)
                     .commit();
         });
     }
+    public void refresh() {
+        DataSource.getData(getContext());
+    }
+
 }
